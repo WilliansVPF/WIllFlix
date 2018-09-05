@@ -3,54 +3,81 @@ import React from "react"
 import Navbar from './components/Navbar'
 import { withStyles } from '@material-ui/core/styles'
 import MovieCard from './components/MovieCard'
-
+import Typography from '@material-ui/core/Typography'
 
 const styles = { 
     body: {
-        padding: '45px 50px 0 50px' ,
-        display: 'flex',
-
+        padding: '45px 50px 0 50px'
+    },    
+    favorites: {
+        display: 'flex'
+    },
+    movies: {
+        display: 'flex'
     }
 }
 
 class App extends React.PureComponent {
     constructor(props){
         super(props)
-        this.state = {movies:[], moviesClone:[], error:false}
-        this.serch = this.serch.bind(this);
+        this.state = {movies:[], favoriteMovies:[], error:false}
+        this.serch = this.serch.bind(this)
+        this.getMovies = this.getMovies.bind(this)
     }
     
     componentDidMount() {
-        axios.get("https://express-server2.herokuapp.com/movie").then( (response) => {            
-            this.setState({movies:response.data, moviesClone:[...response.data]})
+        this.getMovies()
+        this.getFavoriteMovies()
+    }
+
+    getMovies(query='') {        
+        axios.get(`https://express-server2.herokuapp.com/movie?like=false${query}`).then( (response) => {            
+            this.setState({movies:response.data})
+        }).catch( () => {
+            this.setState({error:true})
+        })
+    }
+
+    getFavoriteMovies(query='') {        
+        axios.get(`https://express-server2.herokuapp.com/movie?like=true${query}`).then( (response) => {            
+            this.setState({favoriteMovies:response.data})
         }).catch( () => {
             this.setState({error:true})
         })
     }
     
-    serch(event){        
-        const expression = event.target.value
-        const result = [] 
-        if (expression.length === 0) {
-            this.setState({movies:this.state.moviesClone})
-        }
-        this.state.moviesClone.forEach(element => {
-            if (element.title.indexOf(expression)!== -1){
-                result.push(element)
-            }
-        });        
-        this.setState({movies:result})
+    serch(proxy, target){      
+        const expression = target.value
+        this.getMovies(`&title=${expression}`)
+        this.getFavoriteMovies(`&title=${expression}`)
     }
             
     render() {        
         return ( 
             <div>
                 <Navbar onSearch={ this.serch } />
-                <div className={this.props.classes.body}>{
-                    this.state.movies.map((movie) => {
-                        return <MovieCard content={movie} />
-                    }) 
-                }</div>
+                <div className={this.props.classes.body}>
+                    <Typography variant="headLine" gutterBottom>
+                        Favorites
+                    </Typography>
+                    <div className={this.props.classes.favorites}>
+                        {
+                            this.state.favoriteMovies.map((movie) => {
+                                return <MovieCard content={movie} />
+                            }) 
+                        }                    
+                    </div>
+                    <Typography variant="headLine" gutterBottom>
+                        Movies
+                    </Typography>
+                    <div className={this.props.classes.movies}>
+                        {
+                            this.state.movies.map((movie) => {
+                                return <MovieCard content={movie} />
+                            }) 
+                        }                    
+                    </div>
+                </div>
             </div>
         )
     }
@@ -58,3 +85,4 @@ class App extends React.PureComponent {
 }
 
 export default withStyles(styles)(App)
+

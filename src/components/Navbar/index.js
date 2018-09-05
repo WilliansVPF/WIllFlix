@@ -6,8 +6,13 @@ import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
 import styles from './style'
 import TextField from '@material-ui/core/TextField'
+import _ from 'lodash'
 
 const Navbar = (props) => {
+    const debounced = _.debounce(props.onSearch, 500)
+    const search = (event) => {
+        debounced(event, event.currentTarget)
+    }
     return (
         <AppBar position="static">
             <Toolbar>
@@ -15,7 +20,7 @@ const Navbar = (props) => {
                     Menu
                 </Button>  
                 <Typography variant="title" color="inherit" className={ props.classes.flex }>WillFlix</Typography>    
-                <TextField onChange={ props.onSearch }                   
+                <TextField onChange={ search }                   
                     InputProps={{
                         placeholder: 'Search',
                         disableUnderline: true,
