@@ -9,11 +9,12 @@ const styles = {
     body: {
         padding: '45px 50px 0 50px'
     },    
-    favorites: {
-        display: 'flex'
-    },
-    movies: {
-        display: 'flex'
+    line: {
+        display: 'flex',
+        margin: '10px 0 10px 0',
+        backgroundColor: '#f3f3f3',
+        borderRadius: '5px'
+
     }
 }
 
@@ -57,26 +58,38 @@ class App extends React.PureComponent {
             <div>
                 <Navbar onSearch={ this.serch } />
                 <div className={this.props.classes.body}>
-                    <Typography variant="headLine" gutterBottom>
-                        Favorites
-                    </Typography>
-                    <div className={this.props.classes.favorites}>
-                        {
-                            this.state.favoriteMovies.map((movie) => {
-                                return <MovieCard content={movie} />
-                            }) 
-                        }                    
-                    </div>
-                    <Typography variant="headLine" gutterBottom>
-                        Movies
-                    </Typography>
-                    <div className={this.props.classes.movies}>
-                        {
-                            this.state.movies.map((movie) => {
-                                return <MovieCard content={movie} />
-                            }) 
-                        }                    
-                    </div>
+                    {
+                        this.state.favoriteMovies.length > 0 ? (
+                            <div>
+                                <Typography variant="display1">
+                                    Favorites
+                                </Typography>
+                                <div className={this.props.classes.line}>
+                                    {
+                                        this.state.favoriteMovies.map((movie) => {
+                                            return <MovieCard content={movie} />
+                                        }) 
+                                    }                    
+                                </div>
+                            </div>
+                        ) : null
+                    }
+                    {
+                        this.state.movies.length > 0 ? (
+                            <div>
+                                <Typography variant="display1">
+                                    Movies
+                                </Typography>
+                                <div className={this.props.classes.line}>
+                                    {
+                                        this.state.movies.map((movie) => {
+                                            return <MovieCard content={movie} />
+                                        }) 
+                                    }                    
+                                </div>
+                            </div>
+                        ) : null
+                    }                    
                 </div>
             </div>
         )
