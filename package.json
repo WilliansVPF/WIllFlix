@@ -24,6 +24,7 @@
     "babel-loader": "^7.1.5",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
+    "moment": "^2.22.2",
     "path": "^0.12.7",
     "react": "^16.4.2",
     "react-bootstrap": "^0.32.3",

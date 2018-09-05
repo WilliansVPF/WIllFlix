@@ -15,7 +15,7 @@ const Navbar = (props) => {
                     Menu
                 </Button>  
                 <Typography variant="title" color="inherit" className={ props.classes.flex }>WillFlix</Typography>    
-                <TextField                    
+                <TextField onChange={ props.onSearch }                   
                     InputProps={{
                         placeholder: 'Search',
                         disableUnderline: true,

@@ -1,10 +1,13 @@
 const styles = { 
     media: { 
-        height: '300px',
-        backgroudSize: '250px'
+        height: '300px'
     }, 
     card: {
-       maxWidth: '250px'
+       maxWidth: '250px',
+       margin: '10px',
+       '& button': {
+            width: '100%'
+       }
     }
 }
 
