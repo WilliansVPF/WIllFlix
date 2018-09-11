@@ -9,6 +9,7 @@ import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import moment from 'moment'
+import { Link } from 'react-router-dom'
 
 const MovieCard = (props) => {
     return (
@@ -35,9 +36,12 @@ const MovieCard = (props) => {
                 <Button size="small" color="primary">
                 Like
                 </Button>
-                <Button size="small" color="primary">
-                Show more
-                </Button>
+                <Link to={`/movie/${props.content._id}`}>
+                    <Button size="small" color="primary">
+                    Show more
+                    </Button>
+                </Link>
+                
             </CardActions>
         </Card>
     )

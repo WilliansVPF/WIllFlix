@@ -2,8 +2,10 @@ import axios from "axios"
 import React from "react"
 import Navbar from './components/Navbar'
 import { withStyles } from '@material-ui/core/styles'
-import MovieCard from './components/MovieCard'
-import Typography from '@material-ui/core/Typography'
+import MovieGroup from './components/MovieGroup'
+import { Route } from 'react-router'
+import { BrowserRouter } from 'react-router-dom'
+import MovieDetail from './components/MovieDetail'
 
 const styles = { 
     body: {
@@ -53,44 +55,23 @@ class App extends React.PureComponent {
         this.getFavoriteMovies(`&title=${expression}`)
     }
             
-    render() {        
+    render() { 
+        
+        const movies = () => <MovieGroup 
+            movies={this.state.movies} 
+            favoriteMovies={this.state.favoriteMovies} 
+            classes={this.props.classes} 
+        />
+        
         return ( 
-            <div>
+            <div>                
                 <Navbar onSearch={ this.serch } />
-                <div className={this.props.classes.body}>
-                    {
-                        this.state.favoriteMovies.length > 0 ? (
-                            <div>
-                                <Typography variant="display1">
-                                    Favorites
-                                </Typography>
-                                <div className={this.props.classes.line}>
-                                    {
-                                        this.state.favoriteMovies.map((movie) => {
-                                            return <MovieCard content={movie} />
-                                        }) 
-                                    }                    
-                                </div>
-                            </div>
-                        ) : null
-                    }
-                    {
-                        this.state.movies.length > 0 ? (
-                            <div>
-                                <Typography variant="display1">
-                                    Movies
-                                </Typography>
-                                <div className={this.props.classes.line}>
-                                    {
-                                        this.state.movies.map((movie) => {
-                                            return <MovieCard content={movie} />
-                                        }) 
-                                    }                    
-                                </div>
-                            </div>
-                        ) : null
-                    }                    
-                </div>
+                <BrowserRouter>
+                    <div className={this.props.classes.body}>
+                        <Route path="/" render={movies} />
+                        <Route path="/movie/:id" exact component={MovieDetail} />
+                    </div>
+                </BrowserRouter>
             </div>
         )
     }
